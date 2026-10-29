@@ -110,3 +110,7 @@ class SettingsOut(BaseModel):
     default_quote_minutes: int
     small_party_upgrade: Upgrade
     max_covers: int
+
+
+class HealthOut(BaseModel):
+    status: Literal["ok"]
