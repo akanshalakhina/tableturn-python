@@ -23,7 +23,7 @@ def make_settings(tmp_path: Path, **overrides) -> Settings:
 
 @pytest.fixture
 def clock() -> FixedClock:
-    return FixedClock(T0) 
+    return FixedClock(T0)
 
 
 @pytest.fixture
@@ -47,7 +47,7 @@ def client(app):
 @pytest.fixture
 def db(app):
     """A fresh session factory for looking at rows the API wrote."""
-    return app.state.sessionmaker 
+    return app.state.sessionmaker
 
 
 def join(client, covers=6, name="Kulkarni", phone=None) -> dict:
@@ -56,4 +56,16 @@ def join(client, covers=6, name="Kulkarni", phone=None) -> dict:
         body["phone"] = phone
     r = client.post("/waitlist", json=body)
     assert r.status_code == 201, r.text
-    return r.json()         
+    return r.json()
+
+
+def seat(client, party_id: str, table: str):
+    return client.post("/seatings", json={"party_id": party_id, "table": table})
+
+
+def seated(client, covers=6, table="T20") -> dict:
+    """join + seat, returning the seating body."""
+    party = join(client, covers)
+    r = seat(client, party["party_id"], table)
+    assert r.status_code == 201, r.text
+    return r.json()
