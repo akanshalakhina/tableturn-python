@@ -1,4 +1,4 @@
-"""Routes parse and delegate; they hold no session. The request-scoped dependencies live
+"""One router per resource. Routes parse and delegate; they hold no session. The request-scoped dependencies live
 here, so nothing below the routers (services, session, settings, db) imports FastAPI."""
 from collections.abc import Iterator
 from typing import Annotated
